@@ -1,10 +1,10 @@
-const Gridy = require('.')
+const Tabl = require('.')
 
 
-const loremGrid = new Gridy([
-  new Gridy.Column('Lorem', {width: 9}),
-  new Gridy.Column('Ipsom', {width: 11}),
-  new Gridy.Column('Dolor', {width: 5}),
+const loremTabl = new Tabl([
+  new Tabl.Column('Lorem', {width: 9}),
+  new Tabl.Column('Ipsom', {width: 11}),
+  new Tabl.Column('Dolor', {width: 5}),
 ], [
   ['Lorem', 'ipsum', 'dolor'],
   ['sit', 'amet', 'consectetur'],
@@ -19,18 +19,18 @@ const loremGrid = new Gridy([
   ['ut', 'aliquip', 'ex'],
   ['ea', 'commodo', 'consequat']
 ])
-loremGrid.headerColor = 36
+loremTabl.headerColor = 36
 console.log('')
-console.log(loremGrid.toString())
+console.log(loremTabl.toString())
 console.log('')
 
 
 
-const numGrid = new Gridy([
-  new Gridy.Column('One', {width: 9, align: 'right'}),
-  new Gridy.Column('Two', {width: 9, align: 'right'}),
-  new Gridy.Column('Three', {width: 10, align: 'right'}),
-  new Gridy.Column('Four', {width: 9, align: 'right'}),
+const numTabl = new Tabl([
+  new Tabl.Column('One', {width: 9, align: 'right'}),
+  new Tabl.Column('Two', {width: 9, align: 'right'}),
+  new Tabl.Column('Three', {width: 10, align: 'right'}),
+  new Tabl.Column('Four', {width: 9, align: 'right'}),
 ], [
   [91.472, 49.539, 7.807, 88.139],
   [9.255, 26.788, 46.567, 93.966],
@@ -42,6 +42,6 @@ const numGrid = new Gridy([
   [9.373, 5.278, 72.160, 4.538],
   [39.980, 48.640, 23.655, 24.268]
 ])
-numGrid.headerColor = 35
-console.log(numGrid.toString())
+numTabl.headerColor = 35
+console.log(numTabl.toString())
 console.log('')

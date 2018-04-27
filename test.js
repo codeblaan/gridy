@@ -1,11 +1,11 @@
 const assert = require('assert');
-const Gridy = require('.')
+const Tabl = require('.')
 
-describe('Gridy', () => {
-  it('should render a normal grid', () => {
-    const grid = new Gridy([
-      new Gridy.Column('header1', {width: 10}),
-      new Gridy.Column('header2', {width: 12})
+describe('Tabl', () => {
+  it('should render a normal tabl', () => {
+    const tabl = new Tabl([
+      new Tabl.Column('header1', {width: 10}),
+      new Tabl.Column('header2', {width: 12})
     ], [
       ['item1', 'item2'],
       ['item3', 'item4']
@@ -14,7 +14,7 @@ describe('Gridy', () => {
       _spaceChar: '@' // use instead for testing
     })
 
-    const actualRows = grid.toString().split('\n')
+    const actualRows = tabl.toString().split('\n')
 
     assert.equal(actualRows[0], 'header1@@@@header2@@@@@')
     assert.equal(actualRows[1], '@')
@@ -23,8 +23,8 @@ describe('Gridy', () => {
   })
 
   it('should abbreviate rows if they do not fit inside', () => {
-    const grid = new Gridy([
-      new Gridy.Column('header1', {width: 7}),
+    const tabl = new Tabl([
+      new Tabl.Column('header1', {width: 7}),
     ], [
       ['itemiswaaaytobig']
     ], {
@@ -32,7 +32,7 @@ describe('Gridy', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = grid.toString().split('\n')
+    const actualRows = tabl.toString().split('\n')
 
     assert.equal(actualRows[0], 'header1')
     assert.equal(actualRows[1], '@')
@@ -40,8 +40,8 @@ describe('Gridy', () => {
   })
 
   it('should abbreviate header if they do not fit inside width', () => {
-    const grid = new Gridy([
-      new Gridy.Column('headerissuperlong', {width: 5}),
+    const tabl = new Tabl([
+      new Tabl.Column('headerissuperlong', {width: 5}),
     ], [
       ['item1']
     ], {
@@ -49,7 +49,7 @@ describe('Gridy', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = grid.toString().split('\n')
+    const actualRows = tabl.toString().split('\n')
 
     assert.equal(actualRows[0], 'head…')
     assert.equal(actualRows[1], '@')
@@ -57,9 +57,9 @@ describe('Gridy', () => {
   })
 
   it('can render elements aligned to the right', () => {
-    const grid = new Gridy([
-      new Gridy.Column('number1', {width: 9, align: 'right'}),
-      new Gridy.Column('number2', {width: 9, align: 'right'})
+    const tabl = new Tabl([
+      new Tabl.Column('number1', {width: 9, align: 'right'}),
+      new Tabl.Column('number2', {width: 9, align: 'right'})
     ], [
       [20.34, '23.90'],
       ['80.32', '3.23']
@@ -68,7 +68,7 @@ describe('Gridy', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = grid.toString().split('\n')
+    const actualRows = tabl.toString().split('\n')
 
     assert.equal(actualRows[0], '@@number1@@@number2')
     assert.equal(actualRows[1], '@')
@@ -77,8 +77,8 @@ describe('Gridy', () => {
   })
 
   it('should render just the headers if no rows', () => {
-    const grid = new Gridy([
-      new Gridy.Column('header', {width: 7}),
+    const tabl = new Tabl([
+      new Tabl.Column('header', {width: 7}),
     ], [
       // no rows
     ],{
@@ -86,14 +86,14 @@ describe('Gridy', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = grid.toString().split('\n')
+    const actualRows = tabl.toString().split('\n')
 
     assert.equal(actualRows[0], 'header@')
   })
 
   it('defaults width to length of header when not given', () => {
-    const grid = new Gridy([
-      new Gridy.Column('header'),
+    const tabl = new Tabl([
+      new Tabl.Column('header'),
     ], [
       ['item1'],
       ['item2']
@@ -102,7 +102,7 @@ describe('Gridy', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = grid.toString().split('\n')
+    const actualRows = tabl.toString().split('\n')
 
     assert.equal(actualRows[0], 'header')
     assert.equal(actualRows[1], '@')
@@ -110,9 +110,9 @@ describe('Gridy', () => {
     assert.equal(actualRows[3], 'item2@')
   })
 
-  it('should shift grid over when given shift width greater than 0', () => {
-    const grid = new Gridy([
-      new Gridy.Column('header'),
+  it('should shift tabl over when given shift width greater than 0', () => {
+    const tabl = new Tabl([
+      new Tabl.Column('header'),
     ], [
       ['item1'],
       ['item2']
@@ -121,7 +121,7 @@ describe('Gridy', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = grid.toString().split('\n')
+    const actualRows = tabl.toString().split('\n')
 
     assert.equal(actualRows[0], '@@@header')
     assert.equal(actualRows[1], '@')
