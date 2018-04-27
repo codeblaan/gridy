@@ -128,4 +128,23 @@ describe('Tabl', () => {
     assert.equal(actualRows[2], '@@@item1@')
     assert.equal(actualRows[3], '@@@item2@')
   })
+
+  it('should be able to center align', () => {
+    const tabl = new Tabl([
+      new Tabl.Column('header', {width: 20, align: 'center'}),
+    ], [
+      ['item'],
+      ['anotheritem']
+    ],{
+      leftShiftWidth: 0,
+      _spaceChar: '@'
+    })
+
+    const actualRows = tabl.toString().split('\n')
+
+    assert.equal(actualRows[0], '@@@@@@@header@@@@@@@')
+    assert.equal(actualRows[1], '@')
+    assert.equal(actualRows[2], '@@@@@@@@item@@@@@@@@')
+    assert.equal(actualRows[3], '@@@@@anotheritem@@@@')
+  })
 })
