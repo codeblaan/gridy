@@ -38,7 +38,6 @@ console.log(loremTabl.toString())
 
 ```
   Lorem     Ipsom       Dolor
-
   sit       amet        cons…
   adipisci… elit        sed
   do        eiusmod     temp…
@@ -65,10 +64,42 @@ console.log(numTabl.toString())
 ```
 
 ```
-        One       Two      Three      Four
+        One       Two     Three      Four
+     91.472    49.539     7.807    88.139
+      9.255    26.788    46.567    93.966
+     83.141     0.235     9.844     0.138
+     44.625    41.934    17.043     5.616
+     97.113    29.066     53.38    13.139
 
-     91.472    49.539      7.807    88.139
-      9.255    26.788     46.567    93.966
-     83.141     0.235      9.844     0.138
-     44.625    41.934     17.043     5.616
+```
+
+```javascript
+const borderTabl = new Tabl([
+  new Tabl.Column('Lorem', {width: 15, align: 'center'}),
+  new Tabl.Column('Ipsom', {width: 10, align: 'center'}),
+  new Tabl.Column('Dolor', {width: 10, align: 'right'}),
+], [
+  ['sit', 'amet', 'consectetur'],
+  ['adipiscing', 'elit', 'sed'],
+  ['do', 'eiusmod', 'tempor'],
+  ['incididunt', 'ut', 'labore'],
+  ['et', 'dolore', 'magna'],
+])
+borderTabl.showBorder = true
+console.log(borderTabl.toString())
+```
+```
+  ┏━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┓
+  ┃     Lorem     ┃   Ipsom  ┃     Dolor┃
+  ┣━━━━━━━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━┫
+  ┃      sit      ┃   amet   ┃consectet…┃
+  ┣━━━━━━━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━┫
+  ┃  adipiscing   ┃   elit   ┃       sed┃
+  ┣━━━━━━━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━┫
+  ┃      do       ┃  eiusmod ┃    tempor┃
+  ┣━━━━━━━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━┫
+  ┃  incididunt   ┃    ut    ┃    labore┃
+  ┣━━━━━━━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━┫
+  ┃      et       ┃  dolore  ┃     magna┃
+  ┗━━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━┛
 ```
