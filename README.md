@@ -17,9 +17,9 @@ Super simple way to create a table for printing out for node.
 Printing out some words all nice like
 ```javascript
 const loremGrid = new Gridy([
-  new Gridy.Column('Lorem', 9),
-  new Gridy.Column('Ipsom', 11),
-  new Gridy.Column('Dolor', 5),
+  new Gridy.Column('Lorem', {width: 9}),
+  new Gridy.Column('Ipsom', {width: 11}),
+  new Gridy.Column('Dolor', {width: 5}),
 ], [
   ['Lorem', 'ipsum', 'dolor'],
   ['sit', 'amet', 'consectetur'],
@@ -54,15 +54,13 @@ console.log(loremGrid.toString())
   ea        commodo     cons…
 ```
 
-
-
 And some numbers
 ```javascript
 const numGrid = new Gridy([
-  new Gridy.Column('One', 9, {align: 'right'}),
-  new Gridy.Column('Two', 9, {align: 'right'}),
-  new Gridy.Column('Three', 10, {align: 'right'}),
-  new Gridy.Column('Four', 9, {align: 'right'}),
+  new Gridy.Column('One', {width: 9, align: 'right'}),
+  new Gridy.Column('Two', {width: 9, align: 'right'}),
+  new Gridy.Column('Three', {width: 10, align: 'right'}),
+  new Gridy.Column('Four', {width: 9, align: 'right'}),
 ], [
   [91.472, 49.539, 7.807, 88.139],
   [9.255, 26.788, 46.567, 93.966],
