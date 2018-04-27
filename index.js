@@ -4,7 +4,7 @@ const EMPTY = ''
 const LEFT = 'left'
 const RIGHT = 'right'
 
-class Gridy {
+class Tabl {
   constructor(columns, rows, options) {
     options = Object.assign({
       leftShiftWidth: 2,
@@ -105,6 +105,6 @@ class Column {
   }
 }
 
-Gridy.Column = Column
+Tabl.Column = Column
 
-module.exports = Gridy
+module.exports = Tabl
