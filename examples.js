@@ -19,7 +19,7 @@ const loremGrid = new Gridy([
   ['ut', 'aliquip', 'ex'],
   ['ea', 'commodo', 'consequat']
 ])
-loremGrid.setHeaderColor(36)
+loremGrid.headerColor = 36
 console.log('')
 console.log(loremGrid.toString())
 console.log('')
@@ -42,6 +42,6 @@ const numGrid = new Gridy([
   [9.373, 5.278, 72.160, 4.538],
   [39.980, 48.640, 23.655, 24.268]
 ])
-numGrid.setHeaderColor(35)
+numGrid.headerColor = 35
 console.log(numGrid.toString())
 console.log('')

@@ -11,7 +11,7 @@ describe('Gridy', () => {
       ['item3', 'item4']
     ], {
       leftShiftWidth: 0,
-      spaceChar: '@' // use instead for testing
+      _spaceChar: '@' // use instead for testing
     })
 
     const actualRows = grid.toString().split('\n')
@@ -29,7 +29,7 @@ describe('Gridy', () => {
       ['itemiswaaaytobig']
     ], {
       leftShiftWidth: 0,
-      spaceChar: '@' // use instead for testing
+      _spaceChar: '@'
     })
 
     const actualRows = grid.toString().split('\n')
@@ -46,7 +46,7 @@ describe('Gridy', () => {
       ['item1']
     ], {
       leftShiftWidth: 0,
-      spaceChar: '@' // use instead for testing
+      _spaceChar: '@'
     })
 
     const actualRows = grid.toString().split('\n')
@@ -65,7 +65,7 @@ describe('Gridy', () => {
       ['80.32', '3.23']
     ], {
       leftShiftWidth: 0,
-      spaceChar: '@' // use instead for testing
+      _spaceChar: '@'
     })
 
     const actualRows = grid.toString().split('\n')
@@ -83,7 +83,7 @@ describe('Gridy', () => {
       // no rows
     ],{
       leftShiftWidth: 0,
-      spaceChar: '@' // use instead for testing
+      _spaceChar: '@'
     })
 
     const actualRows = grid.toString().split('\n')
@@ -99,15 +99,15 @@ describe('Gridy', () => {
       ['item2']
     ],{
       leftShiftWidth: 0,
-      spaceChar: '@' // use instead for testing
+      _spaceChar: '@'
     })
 
     const actualRows = grid.toString().split('\n')
 
     assert.equal(actualRows[0], 'header')
     assert.equal(actualRows[1], '@')
-    assert.equal(actualRows[2], 'item1@')
-    assert.equal(actualRows[3], 'item2@')
+    assert.equal(actualRows[2], 'item1')
+    assert.equal(actualRows[3], 'item2')
   })
 
   it('should shift grid over when given shift width greater than 0', () => {
@@ -118,14 +118,14 @@ describe('Gridy', () => {
       ['item2']
     ],{
       leftShiftWidth: 3,
-      spaceChar: '@' // use instead for testing
+      _spaceChar: '@'
     })
 
     const actualRows = grid.toString().split('\n')
 
     assert.equal(actualRows[0], '@@@header')
     assert.equal(actualRows[1], '@')
-    assert.equal(actualRows[2], '@@@item1@')
-    assert.equal(actualRows[3], '@@@item2@')
+    assert.equal(actualRows[2], '@@@item1')
+    assert.equal(actualRows[3], '@@@item2')
   })
 })

@@ -1,125 +1,106 @@
-const elipsisChar = '…'
-const blankChar = ' '
-const leftShiftWidth = 2
+const ELIPSIS_CHAR = '…'
+const BLANK_CHAR = ' '
+const EMPTY = ''
 const LEFT = 'left'
 const RIGHT = 'right'
 
 class Gridy {
   constructor(columns, rows, options) {
-    options = options || {}
+    options = Object.assign({
+      leftShiftWidth: 2,
+      headerColorCode: null,
+      _spaceChar: BLANK_CHAR // override for testing
+    }, options)
     this.columns = columns
     this.rows = rows
-    this.spaceChar = options.spaceChar || blankChar
-    this.headerColorCode = null
-    if (options.leftShiftWidth >= 0) {
-      this.leftShiftWidth = options.leftShiftWidth
-    } else {
-      this.leftShiftWidth = leftShiftWidth
-    }
+    this.headerColorCode = options.headerColorCode
+    this.leftShiftWidth = options.leftShiftWidth
+    this._spaceChar = options._spaceChar
   }
 
-  setHeaderColor(code) {
+  set headerColor(code) {
     this.headerColorCode = code
   }
 
-  toString() {
-    return this._toRows().join('\n')
+  get headerColor() {
+    return this.headerColorCode
   }
 
-  _fitWithin(el, width, align, emptyChar) {
-    if (emptyChar === undefined) emptyChar = this.spaceChar
-    let block = []
-    for (let i = 0; i < width; i++) {
-      let c = el.charAt(i)
-      if (c === '') {
-        if (align === RIGHT) {
-          block.unshift(emptyChar)
-        } else {
-          block.push(emptyChar)
-        }
-      } else {
-        block.push(c)
-      }
-    }
-    if (block.length < el.length) {
-      if (el[el.length] !== blankChar) {
-        block[block.length-1] = elipsisChar
-      }
-    }
-    return block.join('')
+  set leftShift(width) {
+    this.leftShiftWidth = width
+  }
+
+  get leftShift() {
+    return this.leftShiftWidth
+  }
+
+  toString() {
+    return this._toArray().join('\n')
   }
 
   _headerString() {
-    let str = ''
-    for (let i = 0; i < this.columns.length; i++) {
-      str += this._fitWithin(this.columns[i].header, this.columns[i].width, this.columns[i].align)
-      if (i !== this.columns.length-1) {
-        str += this.spaceChar
-      }
-    }
-    return str
+    if (!this.columns) return EMPTY
+    return this.columns.map(column => {
+      return this._fitWithin(column.header, column.width, column.align)
+    }).join(this._spaceChar)
   }
 
   _rowStrings() {
-    let strs = []
-    if (!this.rows || this.rows.length === 0) return []
-    for (let i = 0; i < this.rows.length; i++) {
-      let str = ''
-      let row = this.rows[i]
-      for (let j = 0; j < row.length; j++) {
-        const el = row[j].toString()
-        str += this._fitWithin(el, this.columns[j].width, this.columns[j].align)
-        if (j !== row.length-1) {
-          str += this.spaceChar
-        }
-      }
-      strs.push(str)
-    }
-    return strs 
+    if (!this.rows) return EMPTY
+    return this.rows.map(row => {
+      return row.map((el,i) => {
+        return this._fitWithin(el.toString(), this.columns[i].width, this.columns[i].align)
+      }).join(this._spaceChar)
+    })
   }
 
-  _toRows() {
-    let strRows = []
+  _toArray() {
     let leftShift = ''
-    for (let i = 0; i < this.leftShiftWidth; i++) {
-      leftShift += this.spaceChar
+    while (leftShift.length < this.leftShiftWidth) leftShift += this._spaceChar
+    return [
+      leftShift + this._colorize(this.headerColorCode, this._headerString()),
+      this._spaceChar, // separates header from rows
+    ].concat(this._rowStrings().map(rowString => leftShift + rowString))
+  }
+
+  _fitWithin(el, width, align) {
+    let chars = el.split(EMPTY)
+    while (chars.length > width) {
+      chars.pop()
     }
-    strRows.push(leftShift + this._colorize(this.headerColorCode, this._headerString()))
-    strRows.push(this.spaceChar)
-    this._rowStrings().forEach(rowString => {
-      strRows.push(leftShift + rowString)
-    })
-    return strRows
+    while (chars.length < width) {
+      if (align === LEFT) chars.push(this._spaceChar)
+      if (align === RIGHT) chars.unshift(this._spaceChar)
+    }
+    if (chars.length < el.length) {
+      chars[chars.length-1] = ELIPSIS_CHAR
+    }
+    return chars.join(EMPTY)
   }
 
   _colorize(code, str) {
-    if (code === null || code === undefined) return str
+    if (code === null) return str
     return '\x1b[' + code + 'm' + str + '\x1b[0m'
   }
 }
 
 class Column {
   constructor(header, width, options) {
-    options = options || {}
-    try {
-      if (header === null || header === undefined || header.length === 0) {
-        throw 'header must be set'
-      }
-      if (width === null || width === undefined) {
-        width = header.length
-      }
-      if (width <= 0) {
-        throw 'width must be greater than zero'
-      }
-      this.align = options.align || LEFT
-      if ([LEFT, RIGHT].indexOf(this.align.toLowerCase()) < 0) {
-        throw 'align must be left or right'
-      }
-      this.header = header
-      this.width = width
-    } catch(e) {
-      throw 'invalid args for Column', e
+    options = Object.assign({
+      align: LEFT
+    }, options)
+    if (width === null || width === undefined) {
+      this.width = header.length
     }
+    if (width <= 0) {
+      throw 'width must be greater than zero'
+    }
+    if ([LEFT, RIGHT].indexOf(options.align.toLowerCase()) < 0) {
+      throw 'align must be left or right'
+    }
+    this.header = header
+    this.width = width
+    this.align = options.align
   }
 }
 
