@@ -39,29 +39,45 @@ class Tabl {
     return this._toArray().join('\n')
   }
 
-  _headerString() {
+  _headerEls() {
     if (!this.columns) return EMPTY
     return this.columns.map(column => {
       return this._fitWithin(column.header, column.width, column.align)
-    }).join(this._spaceChar)
+    })
   }
 
-  _rowStrings() {
+  _rowsEls() {
     if (!this.rows) return EMPTY
     return this.rows.map(row => {
       return row.map((el,i) => {
         return this._fitWithin(el.toString(), this.columns[i].width, this.columns[i].align)
-      }).join(this._spaceChar)
+      })
     })
   }
 
   _toArray() {
     let leftShift = ''
     while (leftShift.length < this.leftShiftWidth) leftShift += this._spaceChar
+    let hEls = this._headerEls()
+    let bars = []
+    hEls.forEach(el => {
+      let str = ''
+      while(str.length < el.length) str += '─'
+      bars.push(str)
+    })
+    hEls = hEls.map(el => this._colorize(this.headerColorCode, el))
+    let allREls = []
+    this._rowsEls().forEach(rEl => {
+      allREls.push(leftShift + '├' + bars.join('┼') + '┤')
+      allREls.push(leftShift + '│' +  rEl.join('│') + '│')
+    })
+
     return [
-      leftShift + this._colorize(this.headerColorCode, this._headerString()),
-      this._spaceChar, // separates header from rows
-    ].concat(this._rowStrings().map(rowString => leftShift + rowString))
+      leftShift + '┌' + bars.join('┬') + '┐',
+      leftShift + '│' + hEls.join('│') + '│',
+    ].concat(allREls).concat([
+      leftShift + '└' + bars.join('┴') + '┘',
+    ])
   }
 
   _fitWithin(el, width, align) {

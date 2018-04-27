@@ -47,6 +47,5 @@ const differentAlignTabl = new Tabl([
   ['et', 'dolore', 'magna'],
 ])
 differentAlignTabl.headerColor = 33
-console.log('')
 console.log(differentAlignTabl.toString())
 console.log('')
