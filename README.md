@@ -2,7 +2,8 @@ Tabl
 =====
 [ ![Codeship Status for codeblaan/tabl](https://app.codeship.com/projects/7efc04d0-2bf3-0136-e263-56d0818919a1/status?branch=master)](https://app.codeship.com/projects/287911)
 
-Super simple way to create a table for printing out for node.
+Super simple way to create a table in node. Most useful for command line
+tools written in node where you want to print out some stuff.
 
 ## Install
 `yarn add tabl` or `npm install tabl`
