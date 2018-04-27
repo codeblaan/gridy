@@ -5,6 +5,10 @@ Tabl
 Super simple way to create a table for printing out for node.
 
 ## Install
+`yarn add tabl`
+`npm install tabl`
+
+## Develop
 `yarn install`
 
 ## Test
