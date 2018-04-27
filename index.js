@@ -85,21 +85,22 @@ class Gridy {
 }
 
 class Column {
-  constructor(header, width, options) {
+  constructor(header, options) {
     options = Object.assign({
+      width: null,
       align: LEFT
     }, options)
-    if (width === null || width === undefined) {
-      this.width = header.length
+    if (options.width === null || options.width === undefined) {
+      options.width = header.length
     }
-    if (width <= 0) {
+    if (options.width <= 0) {
       throw 'width must be greater than zero'
     }
     if ([LEFT, RIGHT].indexOf(options.align.toLowerCase()) < 0) {
       throw 'align must be left or right'
     }
     this.header = header
-    this.width = width
+    this.width = options.width
     this.align = options.align
   }
 }
