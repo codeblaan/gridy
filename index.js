@@ -3,6 +3,7 @@ const BLANK_CHAR = ' '
 const EMPTY = ''
 const LEFT = 'left'
 const RIGHT = 'right'
+const CENTER = 'center'
 
 class Tabl {
   constructor(columns, rows, options) {
@@ -71,6 +72,10 @@ class Tabl {
     while (chars.length < width) {
       if (align === LEFT) chars.push(this._spaceChar)
       if (align === RIGHT) chars.unshift(this._spaceChar)
+      if (align === CENTER) {
+        if (chars.length % 2 === 0) chars.push(this._spaceChar)
+        if (chars.length % 2 === 1) chars.unshift(this._spaceChar)
+      }
     }
     if (chars.length < el.length) {
       chars[chars.length-1] = ELIPSIS_CHAR
@@ -96,8 +101,8 @@ class Column {
     if (options.width <= 0) {
       throw 'width must be greater than zero'
     }
-    if ([LEFT, RIGHT].indexOf(options.align.toLowerCase()) < 0) {
-      throw 'align must be left or right'
+    if ([LEFT, RIGHT, CENTER].indexOf(options.align.toLowerCase()) < 0) {
+      throw 'align must be left, right, or center'
     }
     this.header = header
     this.width = options.width
