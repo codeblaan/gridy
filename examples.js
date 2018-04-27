@@ -21,7 +21,7 @@ console.log('')
 const numTabl = new Tabl([
   new Tabl.Column('One', {width: 9, align: 'right'}),
   new Tabl.Column('Two', {width: 9, align: 'right'}),
-  new Tabl.Column('Three', {width: 10, align: 'right'}),
+  new Tabl.Column('Three', {width: 9, align: 'right'}),
   new Tabl.Column('Four', {width: 9, align: 'right'}),
 ], [
   [91.472, 49.539, 7.807, 88.139],
@@ -37,7 +37,7 @@ console.log('')
 
 const differentAlignTabl = new Tabl([
   new Tabl.Column('Lorem', {width: 15, align: 'center'}),
-  new Tabl.Column('Ipsom', {width: 20, align: 'center'}),
+  new Tabl.Column('Ipsom', {width: 10, align: 'center'}),
   new Tabl.Column('Dolor', {width: 10, align: 'right'}),
 ], [
   ['sit', 'amet', 'consectetur'],
@@ -47,6 +47,22 @@ const differentAlignTabl = new Tabl([
   ['et', 'dolore', 'magna'],
 ])
 differentAlignTabl.headerColor = 33
-console.log('')
 console.log(differentAlignTabl.toString())
+console.log('')
+
+
+const borderTabl = new Tabl([
+  new Tabl.Column('Lorem', {width: 15, align: 'center'}),
+  new Tabl.Column('Ipsom', {width: 10, align: 'center'}),
+  new Tabl.Column('Dolor', {width: 10, align: 'right'}),
+], [
+  ['sit', 'amet', 'consectetur'],
+  ['adipiscing', 'elit', 'sed'],
+  ['do', 'eiusmod', 'tempor'],
+  ['incididunt', 'ut', 'labore'],
+  ['et', 'dolore', 'magna'],
+])
+borderTabl.headerColor = 32
+borderTabl.showBorder = true
+console.log(borderTabl.toString())
 console.log('')
