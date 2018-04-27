@@ -19,6 +19,8 @@ Super simple way to create a table for printing out for node.
 
 Printing out some words all nice like
 ```javascript
+const Tabl = require('tabl')
+
 const loremTabl = new Tabl([
   new Tabl.Column('Lorem', {width: 9}),
   new Tabl.Column('Ipsom', {width: 11}),
@@ -59,6 +61,8 @@ console.log(loremTabl.toString())
 
 And some numbers
 ```javascript
+const Tabl = require('tabl')
+
 const numTabl = new Tabl([
   new Tabl.Column('One', {width: 9, align: 'right'}),
   new Tabl.Column('Two', {width: 9, align: 'right'}),
