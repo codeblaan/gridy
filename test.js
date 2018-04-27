@@ -14,12 +14,11 @@ describe('Tabl', () => {
       _spaceChar: '@' // use instead for testing
     })
 
-    const actualRows = tabl.toString().split('\n')
+    const rows = tabl.toString().split('\n')
 
-    assert.equal(actualRows[0], 'header1@@@@header2@@@@@')
-    assert.equal(actualRows[1], '@')
-    assert.equal(actualRows[2], 'item1@@@@@@item2@@@@@@@')
-    assert.equal(actualRows[3], 'item3@@@@@@item4@@@@@@@')
+    assert.equal(rows[0], 'header1@@@@header2@@@@@')
+    assert.equal(rows[1], 'item1@@@@@@item2@@@@@@@')
+    assert.equal(rows[2], 'item3@@@@@@item4@@@@@@@')
   })
 
   it('should abbreviate rows if they do not fit inside', () => {
@@ -32,11 +31,10 @@ describe('Tabl', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = tabl.toString().split('\n')
+    const rows = tabl.toString().split('\n')
 
-    assert.equal(actualRows[0], 'header1')
-    assert.equal(actualRows[1], '@')
-    assert.equal(actualRows[2], 'itemis…')
+    assert.equal(rows[0], 'header1')
+    assert.equal(rows[1], 'itemis…')
   })
 
   it('should abbreviate header if they do not fit inside width', () => {
@@ -49,11 +47,10 @@ describe('Tabl', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = tabl.toString().split('\n')
+    const rows = tabl.toString().split('\n')
 
-    assert.equal(actualRows[0], 'head…')
-    assert.equal(actualRows[1], '@')
-    assert.equal(actualRows[2], 'item1')
+    assert.equal(rows[0], 'head…')
+    assert.equal(rows[1], 'item1')
   })
 
   it('can render elements aligned to the right', () => {
@@ -68,12 +65,11 @@ describe('Tabl', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = tabl.toString().split('\n')
+    const rows = tabl.toString().split('\n')
 
-    assert.equal(actualRows[0], '@@number1@@@number2')
-    assert.equal(actualRows[1], '@')
-    assert.equal(actualRows[2], '@@@@20.34@@@@@23.90')
-    assert.equal(actualRows[3], '@@@@80.32@@@@@@3.23')
+    assert.equal(rows[0], '@@number1@@@number2')
+    assert.equal(rows[1], '@@@@20.34@@@@@23.90')
+    assert.equal(rows[2], '@@@@80.32@@@@@@3.23')
   })
 
   it('should render just the headers if no rows', () => {
@@ -86,9 +82,9 @@ describe('Tabl', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = tabl.toString().split('\n')
+    const rows = tabl.toString().split('\n')
 
-    assert.equal(actualRows[0], 'header@')
+    assert.equal(rows[0], 'header@')
   })
 
   it('defaults width to length of header when not given', () => {
@@ -102,12 +98,11 @@ describe('Tabl', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = tabl.toString().split('\n')
+    const rows = tabl.toString().split('\n')
 
-    assert.equal(actualRows[0], 'header')
-    assert.equal(actualRows[1], '@')
-    assert.equal(actualRows[2], 'item1@')
-    assert.equal(actualRows[3], 'item2@')
+    assert.equal(rows[0], 'header')
+    assert.equal(rows[1], 'item1@')
+    assert.equal(rows[2], 'item2@')
   })
 
   it('should shift tabl over when given shift width greater than 0', () => {
@@ -121,12 +116,11 @@ describe('Tabl', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = tabl.toString().split('\n')
+    const rows = tabl.toString().split('\n')
 
-    assert.equal(actualRows[0], '@@@header')
-    assert.equal(actualRows[1], '@')
-    assert.equal(actualRows[2], '@@@item1@')
-    assert.equal(actualRows[3], '@@@item2@')
+    assert.equal(rows[0], '@@@header')
+    assert.equal(rows[1], '@@@item1@')
+    assert.equal(rows[2], '@@@item2@')
   })
 
   it('should be able to center align', () => {
@@ -140,11 +134,34 @@ describe('Tabl', () => {
       _spaceChar: '@'
     })
 
-    const actualRows = tabl.toString().split('\n')
+    const rows = tabl.toString().split('\n')
 
-    assert.equal(actualRows[0], '@@@@@@@header@@@@@@@')
-    assert.equal(actualRows[1], '@')
-    assert.equal(actualRows[2], '@@@@@@@@item@@@@@@@@')
-    assert.equal(actualRows[3], '@@@@@anotheritem@@@@')
+    assert.equal(rows[0], '@@@@@@@header@@@@@@@')
+    assert.equal(rows[1], '@@@@@@@@item@@@@@@@@')
+    assert.equal(rows[2], '@@@@@anotheritem@@@@')
+  })
+
+  it('can have a border', () => {
+    const tabl = new Tabl([
+      new Tabl.Column('header1'),
+      new Tabl.Column('header2'),
+    ], [
+      ['item1', 'item2'],
+      ['item3', 'item4']
+    ],{
+      leftShiftWidth: 0,
+      showBorder: true,
+      _spaceChar: '@'
+    })
+
+    const rows = tabl.toString().split('\n')
+
+    assert.equal(rows[0], '┏━━━━━━━┳━━━━━━━┓')
+    assert.equal(rows[1], '┃header1┃header2┃')
+    assert.equal(rows[2], '┣━━━━━━━╋━━━━━━━┫')
+    assert.equal(rows[3], '┃item1@@┃item2@@┃')
+    assert.equal(rows[4], '┣━━━━━━━╋━━━━━━━┫')
+    assert.equal(rows[5], '┃item3@@┃item4@@┃')
+    assert.equal(rows[6], '┗━━━━━━━┻━━━━━━━┛')
   })
 })

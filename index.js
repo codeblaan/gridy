@@ -10,13 +10,23 @@ class Tabl {
     options = Object.assign({
       leftShiftWidth: 2,
       headerColorCode: null,
+      showBorder: false,
       _spaceChar: BLANK_CHAR // override for testing
     }, options)
     this.columns = columns
     this.rows = rows
     this.headerColorCode = options.headerColorCode
     this.leftShiftWidth = options.leftShiftWidth
+    this.border = options.showBorder
     this._spaceChar = options._spaceChar
+  }
+
+  set showBorder(border) {
+    this.border = border
+  }
+
+  get showBorder() {
+    return this.border
   }
 
   set headerColor(code) {
@@ -36,7 +46,9 @@ class Tabl {
   }
 
   toString() {
-    return this._toArray().join('\n')
+    let shift = ''
+    while (shift.length < this.leftShiftWidth) shift += this._spaceChar
+    return this._toArray(this.border).map(a => shift + a).join('\n')
   }
 
   _headerEls() {
@@ -55,47 +67,44 @@ class Tabl {
     })
   }
 
-  _toArray() {
-    let leftShift = ''
-    while (leftShift.length < this.leftShiftWidth) leftShift += this._spaceChar
+  _toArray(border) {
     let hEls = this._headerEls()
-    let bars = []
-    hEls.forEach(el => {
-      let str = ''
-      while(str.length < el.length) str += '─'
-      bars.push(str)
-    })
     hEls = hEls.map(el => this._colorize(this.headerColorCode, el))
-    let allREls = []
-    this._rowsEls().forEach(rEl => {
-      allREls.push(leftShift + '├' + bars.join('┼') + '┤')
-      allREls.push(leftShift + '│' +  rEl.join('│') + '│')
-    })
-
+    if (!border) {
+      return [
+        hEls.join(this._spaceChar),
+      ].concat(this._rowsEls().map(row => row.join(this._spaceChar)))
+    }
+    let bars = this._bars('━')
     return [
-      leftShift + '┌' + bars.join('┬') + '┐',
-      leftShift + '│' + hEls.join('│') + '│',
-    ].concat(allREls).concat([
-      leftShift + '└' + bars.join('┴') + '┘',
+              '┏' + bars.join('┳') + '┓',
+              '┃' + hEls.join('┃') + '┃',
+    ].concat(this._rowsEls().reduce((rs,r) => {
+      rs.push('┣' + bars.join('╋') + '┫')
+      rs.push('┃' +    r.join('┃') + '┃')
+      return rs
+    }, [])).concat([
+              '┗' + bars.join('┻') + '┛',
     ])
+  }
+
+  _bars(barChar) {
+    return this.columns.reduce((bs, col) => {
+      let str = ''
+      while(str.length < col.width) str += barChar
+      return bs.concat([str])
+    }, [])
   }
 
   _fitWithin(el, width, align) {
     let chars = el.split(EMPTY)
-    while (chars.length > width) {
-      chars.pop()
-    }
+    while (chars.length > width) chars.pop()
     while (chars.length < width) {
-      if (align === LEFT) chars.push(this._spaceChar)
-      if (align === RIGHT) chars.unshift(this._spaceChar)
-      if (align === CENTER) {
-        if (chars.length % 2 === 0) chars.push(this._spaceChar)
-        if (chars.length % 2 === 1) chars.unshift(this._spaceChar)
-      }
+      if (align === LEFT || (align === CENTER && chars.length % 2 === 0)) {
+        chars.push(this._spaceChar)
+      } else chars.unshift(this._spaceChar)
     }
-    if (chars.length < el.length) {
-      chars[chars.length-1] = ELIPSIS_CHAR
-    }
+    if (chars.length < el.length) chars[chars.length-1] = ELIPSIS_CHAR
     return chars.join(EMPTY)
   }
 
